@@ -6,7 +6,7 @@ across all channels** and threshold-suppressed, which can be published without i
 
 > **Status: v0.2 (draft, release candidate).** Holds a first pooled dataset from five Persian-language channels (see
 > [Current data](#current-data)). The lexicon is unreviewed by a pharmacist, the supply/demand rules were spot-checked on
-> only one of the five channels, and no licence has been chosen yet. Read
+> only one of the five channels. Code is MIT, data and docs are CC BY 4.0 (see [License](#license-and-citation)). Read
 > [docs/METHODOLOGY.md](docs/METHODOLOGY.md) (limitations) and [docs/PRIVACY_AND_ETHICS.md](docs/PRIVACY_AND_ETHICS.md) before using or publishing anything.
 
 ## What it extracts from each channel
@@ -109,5 +109,15 @@ legal review. See [docs/PRIVACY_AND_ETHICS.md](docs/PRIVACY_AND_ETHICS.md).
 
 ## License and citation
 
-**Not yet chosen.** Until a licence file is added, all rights are reserved. Decide separately on a code licence (e.g. MIT) and
-a data licence (e.g. CC BY 4.0) before the first public release.
+| What | Licence | File |
+|---|---|---|
+| Code: `pharmax/`, `tests/`, `pyproject.toml` | [MIT](LICENSE) | `LICENSE` |
+| Data and documentation: `data/public/`, `lexicon/`, `docs/`, the READMEs | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | `LICENSE-CC-BY-4.0.txt` |
+
+The restricted tier and the raw exports are **not part of this repository and are not licensed for any use**.
+
+**Attribution (CC BY 4.0):** credit the project when you reuse the data, e.g. *SarahSaremi, "pharmax: pooled drug supply and demand in
+Persian-language Telegram groups", v0.2.0, https://github.com/SarahSaremi/pharmax*.
+
+A licence cannot restrict ethical use, so please also honour the spirit of [docs/PRIVACY_AND_ETHICS.md](docs/PRIVACY_AND_ETHICS.md):
+do not attempt to re-identify groups or individuals, and do not use the data to locate sellers of controlled medicines.

@@ -98,4 +98,8 @@ demand.groupby([demand.month.str[:4], 'name']).n_senders.sum().unstack(0).fillna
 
 ## Licence and citation
 
-**Not yet chosen.** Until a licence is added, all rights are reserved. Citation text will be added with the first release.
+These files are licensed under **[CC BY 4.0](../../LICENSE-CC-BY-4.0.txt)**; the code that produced them is MIT ([LICENSE](../../LICENSE)). Please attribute, for example:
+
+> SarahSaremi, "pharmax: pooled drug supply and demand in Persian-language Telegram groups", v0.2.0, https://github.com/SarahSaremi/pharmax
+
+A licence cannot restrict ethical use, so please also do not attempt to re-identify groups or individuals, and do not use the data to locate sellers of controlled medicines.

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+- Licences: code MIT, data and documentation CC BY 4.0 (official legal text in `LICENSE-CC-BY-4.0.txt`).
+- Dataset card (`data/public/README.md`) and README current-data section; corrected media and deleted-account wording.
+
 ## 0.2.0 (draft)
 - **Breaking (schema 0.2.0):** the public tier is now *pooled across channels* (`pooled_monthly_summary`,
   `pooled_drug_month_counts`, `lexicon`, `pooled_meta.json`); all per-channel tables (including `monthly_summary`,

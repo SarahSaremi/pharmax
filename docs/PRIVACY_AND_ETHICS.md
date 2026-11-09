@@ -46,8 +46,8 @@ institutional ethics review (IRB / ethics committee) and legal advice for your j
    controlled or abortion-related medicines.
 5. **Researcher and participant safety.** In some jurisdictions trading or studying these markets carries legal risk for
    the participants and for you. Document your legal basis and storage security.
-6. **Terms of service and licensing.** Check Telegram's terms and the group's rules. Decide the data licence before the
-   first public release (none is set yet; see README).
+6. **Terms of service and licensing.** Check Telegram's terms and the group's rules. The public data are CC BY 4.0
+   and the code MIT (see README), so reuse cannot be restricted by licence: the safeguards must be in the data itself.
 
 ## Release checklist (public tier)
 
