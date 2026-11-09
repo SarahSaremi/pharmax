@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.2.0",
+  "pipeline_version": "0.2.0",
+  "lexicon_sha1": "4a6f2ec0a084",
+  "n_channels": 5,
+  "languages": [
+    "fa"
+  ],
+  "sender_key_types": [
+    "display_name"
+  ],
+  "first_month": "2018-10",
+  "last_month": "2026-11",
+  "k": 1,
+  "k_sensitive": 5,
+  "sensitive_flags": "CAX",
+  "n_cells_total": 29282,
+  "n_cells_suppressed": 3041,
+  "n_cells_suppressed_sensitive": 3041,
+  "generated_at": "2026-11-09T22:33:18Z"
+}

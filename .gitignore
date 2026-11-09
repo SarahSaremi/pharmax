@@ -1,0 +1,13 @@
+# secrets and restricted data: never commit
+config/.salt
+config/*.private.*
+data/restricted/
+# raw Telegram exports
+messages*.html
+result.json
+*.db
+export/
+# python
+__pycache__/
+*.pyc
+.venv/

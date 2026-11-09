@@ -1,0 +1,9 @@
+[project]
+name = "pharmax"
+version = "0.1.0"
+description = "Pipeline and data standard for analysing drug supply/demand in Telegram exchange groups"
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.setuptools]
+packages = ["pharmax"]
