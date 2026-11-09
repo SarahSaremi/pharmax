@@ -79,7 +79,7 @@ All tables are UTF-8 CSV (`.csv` or `.csv.gz`) with a header row, one file per t
 | `sender_is_deleted` | int | 1 if the sender is a deleted account (many people share one 'DELETED' pid) |
 | `is_forwarded` | int | 1 if forwarded from elsewhere |
 | `reply_to_id` | int | msg_id this message replies to, empty if none |
-| `media_type` | str | one of MEDIA_TYPES; 'photo' posts with no text are usually image ads the text pipeline cannot read |
+| `media_type` | str | one of MEDIA_TYPES; media with text_len < 3 cannot be read by the text pipeline (photo posts with a caption are analysed through the caption) |
 | `text_len` | int | Characters of text (0 for media-only) |
 | `role` | str | supply | demand | mixed | other | jobs (rule-based, see METHODOLOGY) |
 | `role_rule` | str | Name of the rule that assigned the role (for auditing) |

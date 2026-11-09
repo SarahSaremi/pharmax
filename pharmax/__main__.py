@@ -37,10 +37,16 @@ def main(argv=None):
     m.add_argument('--sensitive-flags', default='CAX', help='lexicon flag letters treated as sensitive')
     m.add_argument('--lexicon', default=None)
 
+    c = sub.add_parser('dataset-card', help='regenerate data/public/README.md from the public files')
+    c.add_argument('--public', default='data/public')
+
     d = sub.add_parser('schema-doc', help='print the data standard as Markdown (used to generate docs/DATA_STANDARD.md)')
 
     a = ap.parse_args(argv)
-    if a.cmd == 'schema-doc':
+    if a.cmd == 'dataset-card':
+        from .card import write_card
+        print('wrote', write_card(a.public))
+    elif a.cmd == 'schema-doc':
         from . import schema
         sys.stdout.write(schema.to_markdown())
     elif a.cmd == 'init-salt':

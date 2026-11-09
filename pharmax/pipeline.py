@@ -204,12 +204,15 @@ def pool(restricted_root, public_root, k=1, k_sensitive=5, sensitive_flags='CAX'
     sums = defaultdict(lambda: defaultdict(int))
     mon_senders = defaultdict(set)
     mon_sup, mon_dem, mon_chans = defaultdict(set), defaultdict(set), defaultdict(set)
+    all_senders, rows_matched, rows_total = set(), 0, 0
     sum_cols = ['n_messages', 'n_with_text', 'n_supply', 'n_demand', 'n_mixed', 'n_other', 'n_jobs', 'n_media_only', 'n_deleted_msgs']
     for c in chans:
         base = os.path.join(restricted_root, c)
         log(f'pooling {c}')
         for r in _read_rows(os.path.join(base, 'mentions.csv.gz')):
+            rows_total += 1
             if r['drug_id']:
+                rows_matched += 1
                 key = (r['month'], r['role'], r['drug_id'])
                 cell_senders[key].add(r['sender_pid'])
                 cell_chans[key].add(c)
@@ -220,6 +223,7 @@ def pool(restricted_root, public_root, k=1, k_sensitive=5, sensitive_flags='CAX'
             v[2] += int(r['n_replied'])
         for r in _read_rows(os.path.join(base, 'messages.csv.gz')):
             mon_senders[r['month']].add(r['sender_pid'])
+            all_senders.add(r['sender_pid'])
             mon_chans[r['month']].add(c)
             if int(r['text_len'] or 0) >= MIN_TEXT:
                 if r['role'] == 'supply':
@@ -248,7 +252,10 @@ def pool(restricted_root, public_root, k=1, k_sensitive=5, sensitive_flags='CAX'
     write_csv(os.path.join(public_root, 'pooled_drug_month_counts.csv'), 'pooled_drug_month_counts', cells)
     write_csv(os.path.join(public_root, 'lexicon.csv'), 'lexicon', [dict(r) for r in lex.rows.values()])
     meta = {'schema_version': SCHEMA_VERSION, 'pipeline_version': __version__, 'lexicon_sha1': lex_sha,
-            'n_channels': len(chans), 'languages': sorted({m['language'] for m in metas.values()}),
+            'n_channels': len(chans), 'rules_versions': sorted({m['rules_version'] for m in metas.values()}),
+            'n_distinct_named_senders': len(all_senders - {'DELETED', 'UNKNOWN'}),
+            'item_match_rate': round(rows_matched / rows_total, 4) if rows_total else 0,
+            'languages': sorted({m['language'] for m in metas.values()}),
             'sender_key_types': sorted(kinds), 'first_month': summary[0]['month'] if summary else None,
             'last_month': summary[-1]['month'] if summary else None, 'k': k, 'k_sensitive': k_sensitive,
             'sensitive_flags': sensitive_flags, 'n_cells_total': len(cells) + dropped, 'n_cells_suppressed': dropped,
@@ -256,6 +263,8 @@ def pool(restricted_root, public_root, k=1, k_sensitive=5, sensitive_flags='CAX'
             'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}
     with open(os.path.join(public_root, 'pooled_meta.json'), 'w', encoding='utf-8') as f:
         json.dump(meta, f, indent=2, ensure_ascii=False)
+    from .card import write_card
+    write_card(public_root)
     log(f'pooled {len(chans)} channel(s): {len(cells):,} cells published, {dropped:,} suppressed ({dropped_sensitive:,} sensitive)')
     return meta
 

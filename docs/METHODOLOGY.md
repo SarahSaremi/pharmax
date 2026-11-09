@@ -77,8 +77,10 @@ channel's early months about half of all messages came from deleted accounts (35
 
 ## Limitations (read before publishing results)
 
-- **Image-only ads are invisible.** In the first channel ~108k messages are photos; many are supply ads whose content is only in
-  the picture. `monthly_summary.n_media_only` quantifies the blind spot. Supply may be under-counted in image-heavy periods.
+- **Photo-only posts are invisible.** In the first channel ~108k messages carry a photo; about two thirds have a caption that the
+  pipeline does read, but ~35k (7% of that channel's messages) have no text at all, and across all five channels 3.5% of messages
+  are media with no text. Their content (often a price list as a picture) is unreadable here. Even where a caption exists it may
+  not list everything the photo shows. `n_media_only` in the summary tables quantifies the blind spot.
 - **Lexicon coverage ~45%** of extracted items in the first channel; long-tail drugs, devices and consumables are unmatched.
   `restricted/unmatched_items.csv` lists the most common unmatched items for lexicon growth.
 - **Sender identity.** HTML exports carry only display names, which can change or collide. JSON exports carry user ids

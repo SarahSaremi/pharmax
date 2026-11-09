@@ -246,6 +246,20 @@ class TestParseAndPipeline(unittest.TestCase):
         self.assertEqual(pipeline.validate(self.out('restricted/chT')), [])
         self.assertEqual(pipeline.validate(self.out('public')), [])
 
+    def test_dataset_card_is_generated_from_public_files_only(self):
+        self.run_pipeline()
+        self.second_channel()
+        self.pool(k=1, k_sensitive=5)
+        with open(self.out('public/README.md'), encoding='utf-8') as f:
+            card = f.read()
+        self.assertIn('Channels pooled | 2', card)
+        self.assertIn('Period | 2021-03 to 2021-03', card)
+        for leak in ('chT', 'chU', 'Seller A', 'Buyer B', 'sellerx'):
+            self.assertNotIn(leak, card)
+        import re
+        self.assertIsNone(re.search(r'u_[0-9a-f]{12}', card))
+        self.assertEqual(pipeline.validate(self.out('public')), [])
+
     def test_json_export(self):
         d = os.path.join(self.tmp.name, 'jexport')
         os.makedirs(d)

@@ -4,8 +4,9 @@ A pipeline and a **data standard** for studying drug supply and demand in Telegr
 Give it Telegram exports; it produces (a) pseudonymised per-channel tables for researchers (restricted) and (b) tables **pooled
 across all channels** and threshold-suppressed, which can be published without identifying any single channel.
 
-> **Status: v0.1 (draft).** Built on one Persian-language channel. The lexicon is unreviewed by a pharmacist, role rules
-> are validated only by a small informal spot check, and no licence has been chosen yet. Read
+> **Status: v0.2 (draft, release candidate).** Holds a first pooled dataset from five Persian-language channels (see
+> [Current data](#current-data)). The lexicon is unreviewed by a pharmacist, the supply/demand rules were spot-checked on
+> only one of the five channels, and no licence has been chosen yet. Read
 > [docs/METHODOLOGY.md](docs/METHODOLOGY.md) (limitations) and [docs/PRIVACY_AND_ETHICS.md](docs/PRIVACY_AND_ETHICS.md) before using or publishing anything.
 
 ## What it extracts from each channel
@@ -23,6 +24,27 @@ across all channels** and threshold-suppressed, which can be published without i
 **Counting unit.** Everything is counted in *distinct senders per month*, not messages, because a few accounts re-post
 the same catalogue thousands of times. Raw and de-duplicated message counts are also provided.
 
+## Current data
+
+The repository currently contains **one pooled public dataset** built from **five Persian-language Telegram groups** in which
+pharmacies and individuals offer and request medicines (including scarce and rare drugs). Headline figures at this commit:
+
+| | |
+|---|---|
+| Period | Oct 2018 - Nov 2026 (98 months with activity) |
+| Messages | 1.6 million (1.54 million with text); about 76% supply, 15% demand, 2% job ads |
+| Distinct senders | 8,618 named accounts, linked across groups by pseudonym (deleted accounts count as one) |
+| Published data | 26,241 month x role x drug-group cells over 150 drug groups; 3,041 sensitive-drug cells suppressed |
+| Matching | about half of all extracted item lines match a lexicon drug group |
+
+- **The dataset card, [data/public/README.md](data/public/README.md), is the authoritative description** of the files, thresholds,
+  composition and limits. It is generated from the published files every time you run `pool`, so it cannot drift from the data.
+- **Not in this repository:** the raw exports, message text, sender identifiers, channel names or codes, and every per-channel
+  figure. These stay in the git-ignored restricted tier.
+- **Provisional:** only the first channel's supply/demand labels were spot-checked (informally, ~90-95% correct); the QA protocol in
+  [docs/ADDING_A_CHANNEL.md](docs/ADDING_A_CHANNEL.md) is still to be completed for the other four, so treat role-level results as
+  provisional. Drug groups are the project's own grouping of brand names, not pharmacist-verified.
+
 ## Quick start
 
 Requires Python >= 3.9, no third-party packages.
@@ -34,6 +56,7 @@ python -m pharmax run --input /path/to/telegram-export \
 python -m pharmax validate data/restricted/ch001              # check against the schema
 python -m pharmax pool --k 1 --k-sensitive 5                  # pool ALL channels -> data/public/ (distinct senders across channels)
 python -m pharmax validate data/public
+python -m pharmax dataset-card                                # regenerate data/public/README.md (pool does this too)
 python -m unittest discover -s tests -v                       # tests (synthetic data only)
 ```
 
@@ -47,7 +70,7 @@ pharmax/            package: parse, language pack (rules_fa), lexicon loader, ag
 lexicon/            drug_lexicon.csv  - reviewable, versioned drug / brand / spelling-variant dictionary
 docs/               DATA_STANDARD.md (generated), METHODOLOGY.md, PRIVACY_AND_ETHICS.md, ADDING_A_CHANNEL.md
 tests/              unit + end-to-end tests on synthetic exports
-data/public/        pooled tables, no channel ids (committed)
+data/public/        pooled tables + README.md dataset card, no channel ids (committed)
 data/restricted/<ch>/ all per-channel tables, row-level and aggregate (git-ignored, never published)
 config/             .salt and channels.private.csv (git-ignored)
 ```
@@ -74,8 +97,9 @@ See [docs/ADDING_A_CHANNEL.md](docs/ADDING_A_CHANNEL.md): export (prefer JSON) -
 
 ## Known limitations
 
-Image-only ads are invisible; lexicon coverage is partial (~45% of items in the first channel); all deleted accounts share
-one pseudonym; role rules are Persian-specific; a mention is not a transaction. Details in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
+Photo-only posts (3.5% of messages) have no readable text, and captions on photo posts may not list everything shown;
+lexicon coverage is partial (about half of extracted items); all deleted accounts share one pseudonym (31% of messages overall; about half
+in 2019-2021), so distinct senders are under-counted; role rules are Persian-specific and only spot-checked on one channel; a mention is not a transaction. Details in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 
 ## Responsible use
 
